@@ -27,6 +27,10 @@ const startCrawler = async (queueUrlParam, startUrl, depth, max) => {
             queueUrl,
             depth: 0,
         });
+        await Axios.post(process.env.WORKER2_URL + "/work-url", {
+            queueUrl,
+            depth: 0,
+        });
         workCounter = 1;
     } catch (err) {
         console.log(err.message);

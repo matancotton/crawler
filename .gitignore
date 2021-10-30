@@ -28,3 +28,6 @@ server/node_modules
 server/config
 worker/node_modules
 worker/config
+worker2/node_modules
+worker2/config
+
