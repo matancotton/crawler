@@ -7,9 +7,11 @@ import TreeItem from "@mui/lab/TreeItem";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { dividerClasses } from "@mui/material";
+import Loader from "./Loader";
 
 const DisplayJobs = ({ treeName }) => {
     const [urlDetails, setUrlDetails] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
 
     const renderTree = (nodes) => {
         const data = JSON.parse(nodes.data || {});
@@ -55,9 +57,13 @@ const DisplayJobs = ({ treeName }) => {
                         //     result.push(JSON.parse(element));
                         // });
                         // setUrlDetails(result);
+                        if (!isLoading) setIsLoading(true);
                         console.log(data.isDone);
-                        setUrlDetails(data.value.root);
-                        if (data.isDone) clearInterval(interval);
+                        if (data.isDone) {
+                            setUrlDetails(data.value.root);
+                            clearInterval(interval);
+                            setIsLoading(false);
+                        }
                     })
                     .catch((err) => {
                         console.log(err.message);
@@ -93,6 +99,7 @@ const DisplayJobs = ({ treeName }) => {
                     {renderTree(urlDetails)}
                 </TreeView>
             )}
+            {!!isLoading && <Loader />}
         </div>
     );
 };
